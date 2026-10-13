@@ -57,3 +57,8 @@ Task created (Ready) after CIP-0001 Accepted.
 
 Implemented `action_log.py` and wired `_invoke` in `server.py` so every
 MCP tool path logs allow/deny/result. Marked Completed.
+
+### 2026-10-13 (MCP live)
+
+Confirmed `~/.bridle/actions.jsonl` recorded live `ping` and `gh_pr_list`
+invocations with `schema: bridle.action/v0` and `allowed: true`.

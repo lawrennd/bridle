@@ -61,3 +61,8 @@ Task created (Ready) after CIP-0001 Accepted.
 Implemented `src/bridle` with FastMCP `ping`, `pyproject.toml`, stdio
 default + optional `BRIDLE_TRANSPORT=streamable-http` on 127.0.0.1:8766,
 README Cursor MCP snippet, and unit test. Marked Completed.
+
+### 2026-10-13 (MCP live)
+
+Wired project + global Cursor MCP config. Live `ping` from the Cursor
+agent returned `ok: true`, `service: bridle`, `version: 0.1.0`.

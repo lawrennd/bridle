@@ -59,3 +59,8 @@ Task created (Ready) after CIP-0001 Accepted.
 
 Implemented `policy.py`, `gh_adapter.py`, MCP tools `gh_pr_view` /
 `gh_pr_list` / `gh_pr_create`, and mocked unit tests. Marked Completed.
+
+### 2026-10-13 (MCP live)
+
+Live `gh_pr_list` on `lawrennd/mlai` from the Cursor agent returned open
+PR #1 (Deep GP pinball fix) without opening the seatbelt sandbox.

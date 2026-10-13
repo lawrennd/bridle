@@ -1,7 +1,7 @@
 ---
 id: "0001"
 title: "Localhost privileged MCP control plane"
-status: "Ready"
+status: "In Progress"
 priority: "High"
 created: "2026-10-13"
 last_updated: "2026-10-13"
@@ -24,11 +24,15 @@ invocation is policy-checked and recorded for audit.
 
 ## Acceptance criteria
 
-- [ ] A sandboxed agent can call bridle MCP tools on `127.0.0.1` / localhost
-- [ ] Bridle executes allowlisted `gh` operations using the user's normal
+- [x] A sandboxed agent can call bridle MCP tools on `127.0.0.1` / localhost
+      (verified 2026-10-13 via Cursor MCP `ping`)
+- [x] Bridle executes allowlisted `gh` operations using the user's normal
       keyring credentials (outside the sandbox)
-- [ ] Non-allowlisted or free-form shell is rejected
-- [ ] Each tool call leaves an accountable record (inputs, decision, result)
+      (verified 2026-10-13 via `gh_pr_list` on `lawrennd/mlai`)
+- [x] Non-allowlisted or free-form shell is rejected
+      (unit-tested `PolicyDenied`; no shell passthrough tools exposed)
+- [x] Each tool call leaves an accountable record (inputs, decision, result)
+      (verified 2026-10-13 in `~/.bridle/actions.jsonl`, `bridle.action/v0`)
 - [ ] Lynguine engagement is via adapter to existing lynguine server mode,
       not by embedding MCP in lynguine core (initial scope)
 
