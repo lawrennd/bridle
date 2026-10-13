@@ -85,9 +85,12 @@ Default Cursor integration uses **stdio** (leave `BRIDLE_TRANSPORT` unset).
 
 Optional: set `BRIDLE_GH_BIN` to an absolute `gh` path.
 
+Action log (JSONL, schema `bridle.action/v0`) defaults to
+`~/.bridle/actions.jsonl`. Override with `BRIDLE_ACTION_LOG`.
+
 ## Status
 
 - [x] MCP skeleton + `ping` (CIP-0001 backlog)
 - [x] Allowlisted `gh` adapter + policy
-- [ ] Action log / DOAgent records
+- [x] Action log / DOAgent-compatible records
 - [ ] Hardening (confirm, tests, failure docs)

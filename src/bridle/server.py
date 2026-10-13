@@ -12,8 +12,8 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 from bridle import __version__
-from bridle import gh_adapter
-from bridle.policy import PolicyDenied, require
+from bridle import action_log, gh_adapter
+from bridle.policy import PolicyDenied, decide, require
 
 mcp = FastMCP(
     "bridle",
@@ -26,24 +26,59 @@ mcp = FastMCP(
 )
 
 
+def _invoke(tool: str, args: dict[str, Any], fn) -> dict[str, Any]:
+    """Run an allowlisted tool, always writing an action-log record."""
+    decision = decide(tool, **args)
+    if not decision.allowed:
+        action_log.record(
+            tool=tool,
+            allowed=False,
+            args=args,
+            reason=decision.reason,
+            error=decision.reason,
+        )
+        return {"ok": False, "error": decision.reason}
+    try:
+        result = fn()
+        action_log.record(
+            tool=tool,
+            allowed=True,
+            args=args,
+            reason=decision.reason,
+            result=result if isinstance(result, dict) else {"value": result},
+        )
+        return result
+    except (PolicyDenied, gh_adapter.GhError) as exc:
+        action_log.record(
+            tool=tool,
+            allowed=True,
+            args=args,
+            reason=decision.reason,
+            error=str(exc),
+        )
+        return {"ok": False, "error": str(exc)}
+
+
 @mcp.tool()
 def ping() -> dict[str, Any]:
     """Health check: confirm the bridle MCP server is reachable."""
-    require("ping")
-    return {
-        "ok": True,
-        "service": "bridle",
-        "version": __version__,
-    }
+
+    def _run() -> dict[str, Any]:
+        require("ping")
+        return {
+            "ok": True,
+            "service": "bridle",
+            "version": __version__,
+        }
+
+    return _invoke("ping", {}, _run)
 
 
 @mcp.tool()
 def gh_pr_view(repo: str, number: int) -> dict[str, Any]:
     """View a GitHub pull request via allowlisted ``gh pr view``."""
-    try:
-        return gh_adapter.gh_pr_view(repo, number)
-    except (PolicyDenied, gh_adapter.GhError) as exc:
-        return {"ok": False, "error": str(exc)}
+    args = {"repo": repo, "number": number}
+    return _invoke("gh_pr_view", args, lambda: gh_adapter.gh_pr_view(repo, number))
 
 
 @mcp.tool()
@@ -53,10 +88,12 @@ def gh_pr_list(
     limit: int = 10,
 ) -> dict[str, Any]:
     """List GitHub pull requests via allowlisted ``gh pr list``."""
-    try:
-        return gh_adapter.gh_pr_list(repo, state=state, limit=limit)
-    except (PolicyDenied, gh_adapter.GhError) as exc:
-        return {"ok": False, "error": str(exc)}
+    args = {"repo": repo, "state": state, "limit": limit}
+    return _invoke(
+        "gh_pr_list",
+        args,
+        lambda: gh_adapter.gh_pr_list(repo, state=state, limit=limit),
+    )
 
 
 @mcp.tool()
@@ -69,17 +106,26 @@ def gh_pr_create(
     draft: bool = False,
 ) -> dict[str, Any]:
     """Create a GitHub pull request via allowlisted ``gh pr create``."""
-    try:
-        return gh_adapter.gh_pr_create(
+    args = {
+        "repo": repo,
+        "title": title,
+        "body": body,
+        "base": base,
+        "head": head,
+        "draft": draft,
+    }
+    return _invoke(
+        "gh_pr_create",
+        args,
+        lambda: gh_adapter.gh_pr_create(
             repo,
             title=title,
             body=body,
             base=base,
             head=head,
             draft=draft,
-        )
-    except (PolicyDenied, gh_adapter.GhError) as exc:
-        return {"ok": False, "error": str(exc)}
+        ),
+    )
 
 
 def run() -> None:

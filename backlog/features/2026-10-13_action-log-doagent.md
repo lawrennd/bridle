@@ -1,7 +1,7 @@
 ---
 id: "2026-10-13_action-log-doagent"
 title: "Accountable action log (DOAgent-compatible)"
-status: "Ready"
+status: "Completed"
 priority: "High"
 created: "2026-10-13"
 last_updated: "2026-10-13"
@@ -29,11 +29,11 @@ swap to DOAgent without changing the MCP surface.
 
 ## Acceptance Criteria
 
-- [ ] Each tool call writes a durable record (timestamp, tool, args
+- [x] Each tool call writes a durable record (timestamp, tool, args
       summary, allow/deny, result or error)
-- [ ] Records are queryable after a run (file-backed is fine for v0)
-- [ ] Schema documented so a later DOAgent integration can map cleanly
-- [ ] Denied policy checks are logged as well as successful executions
+- [x] Records are queryable after a run (JSONL file-backed)
+- [x] Schema documented as `bridle.action/v0` (DOAgent mapping later)
+- [x] Denied policy checks are logged as well as successful executions
 
 ## Implementation Notes
 
@@ -52,3 +52,8 @@ swap to DOAgent without changing the MCP surface.
 ### 2026-10-13
 
 Task created (Ready) after CIP-0001 Accepted.
+
+### 2026-10-13 (later)
+
+Implemented `action_log.py` and wired `_invoke` in `server.py` so every
+MCP tool path logs allow/deny/result. Marked Completed.
