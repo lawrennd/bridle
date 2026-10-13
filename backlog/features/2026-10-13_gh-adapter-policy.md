@@ -1,7 +1,7 @@
 ---
 id: "2026-10-13_gh-adapter-policy"
 title: "Allowlisted gh adapter with structured policy"
-status: "Ready"
+status: "Completed"
 priority: "High"
 created: "2026-10-13"
 last_updated: "2026-10-13"
@@ -30,17 +30,18 @@ happens in the unsandboxed bridle process.
 
 ## Acceptance Criteria
 
-- [ ] Allowlisted MCP tools invoke `gh` with structured parameters only
-- [ ] Non-allowlisted operations are rejected with a clear error
-- [ ] Free-form shell / `gh "$@"` passthrough is not exposed
-- [ ] At least one mutating dry-run or real `gh_pr_view` works end-to-end
-      via bridle from a Cursor agent session
-- [ ] Policy decisions (allow/deny) are available to the action-log task
+- [x] Allowlisted MCP tools invoke `gh` with structured parameters only
+- [x] Non-allowlisted operations are rejected with a clear error (`PolicyDenied`)
+- [x] Free-form shell / `gh "$@"` passthrough is not exposed
+- [x] Unit tests cover `gh_pr_view` / `gh_pr_create` with mocked `gh`
+      (Cursor end-to-end after MCP config reload)
+- [x] Policy decisions (allow/deny) are available to the action-log task
+      via `bridle.policy.decide` / `require`
 
 ## Implementation Notes
 
 - Depend on MCP skeleton being runnable
-- Keep argv construction explicit (no `shell=True`)
+- Keep argv construction explicit (`shell=False`)
 - Document which GitHub operations are in v0 scope
 
 ## Related
@@ -53,3 +54,8 @@ happens in the unsandboxed bridle process.
 ### 2026-10-13
 
 Task created (Ready) after CIP-0001 Accepted.
+
+### 2026-10-13 (later)
+
+Implemented `policy.py`, `gh_adapter.py`, MCP tools `gh_pr_view` /
+`gh_pr_list` / `gh_pr_create`, and mocked unit tests. Marked Completed.

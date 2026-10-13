@@ -12,13 +12,16 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 from bridle import __version__
+from bridle import gh_adapter
+from bridle.policy import PolicyDenied, require
 
 mcp = FastMCP(
     "bridle",
     instructions=(
         "Bridle is a local privileged MCP control plane. "
         "Call ping to verify the server is reachable. "
-        "Allowlisted adapters (gh, …) register additional tools."
+        "Allowlisted gh tools: gh_pr_view, gh_pr_list, gh_pr_create. "
+        "No free-form shell is exposed."
     ),
 )
 
@@ -26,11 +29,57 @@ mcp = FastMCP(
 @mcp.tool()
 def ping() -> dict[str, Any]:
     """Health check: confirm the bridle MCP server is reachable."""
+    require("ping")
     return {
         "ok": True,
         "service": "bridle",
         "version": __version__,
     }
+
+
+@mcp.tool()
+def gh_pr_view(repo: str, number: int) -> dict[str, Any]:
+    """View a GitHub pull request via allowlisted ``gh pr view``."""
+    try:
+        return gh_adapter.gh_pr_view(repo, number)
+    except (PolicyDenied, gh_adapter.GhError) as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+@mcp.tool()
+def gh_pr_list(
+    repo: str,
+    state: str = "open",
+    limit: int = 10,
+) -> dict[str, Any]:
+    """List GitHub pull requests via allowlisted ``gh pr list``."""
+    try:
+        return gh_adapter.gh_pr_list(repo, state=state, limit=limit)
+    except (PolicyDenied, gh_adapter.GhError) as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+@mcp.tool()
+def gh_pr_create(
+    repo: str,
+    title: str,
+    body: str,
+    base: str,
+    head: str,
+    draft: bool = False,
+) -> dict[str, Any]:
+    """Create a GitHub pull request via allowlisted ``gh pr create``."""
+    try:
+        return gh_adapter.gh_pr_create(
+            repo,
+            title=title,
+            body=body,
+            base=base,
+            head=head,
+            draft=draft,
+        )
+    except (PolicyDenied, gh_adapter.GhError) as exc:
+        return {"ok": False, "error": str(exc)}
 
 
 def run() -> None:

@@ -74,9 +74,20 @@ BRIDLE_TRANSPORT=streamable-http BRIDLE_HOST=127.0.0.1 BRIDLE_PORT=8766 bridle
 
 Default Cursor integration uses **stdio** (leave `BRIDLE_TRANSPORT` unset).
 
+## Allowlisted tools (v0)
+
+| Tool | Purpose |
+|------|---------|
+| `ping` | Health check |
+| `gh_pr_view` | `gh pr view --repo … --json …` |
+| `gh_pr_list` | `gh pr list --repo …` |
+| `gh_pr_create` | `gh pr create --repo …` (mutating) |
+
+Optional: set `BRIDLE_GH_BIN` to an absolute `gh` path.
+
 ## Status
 
 - [x] MCP skeleton + `ping` (CIP-0001 backlog)
-- [ ] Allowlisted `gh` adapter
+- [x] Allowlisted `gh` adapter + policy
 - [ ] Action log / DOAgent records
 - [ ] Hardening (confirm, tests, failure docs)
