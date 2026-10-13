@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "bridle": {
+      "command": "${workspaceFolder}/.venv/bin/bridle",
+      "args": [],
+      "env": {
+        "BRIDLE_TRANSPORT": "stdio"
+      }
+    }
+  }
+}

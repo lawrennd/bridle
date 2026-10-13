@@ -33,36 +33,35 @@ bridle  # blocks on stdio — use from Cursor MCP, or see HTTP below
 
 ## Cursor MCP config
 
-Add to Cursor MCP settings (user or project). Prefer an absolute path and
-the project venv so the server runs outside the agent seatbelt with your
-normal credentials available to child processes:
+Bridle is wired for Cursor in two places (stdio; Cursor launches the
+process outside the agent seatbelt):
+
+| Scope | File |
+|-------|------|
+| Global (all workspaces) | `~/.cursor/mcp.json` |
+| This repo | `.cursor/mcp.json` |
+
+Both point at the project venv’s `bridle` console script. After editing,
+reload Cursor (**Developer: Reload Window**) or toggle the server under
+**Cursor Settings → Tools & MCP**, then call `ping`.
+
+Equivalent manual config:
 
 ```json
 {
   "mcpServers": {
     "bridle": {
-      "command": "/Users/neil/lawrennd/bridle/.venv/bin/bridle",
-      "args": []
+      "command": "${userHome}/lawrennd/bridle/.venv/bin/bridle",
+      "args": [],
+      "env": {
+        "BRIDLE_TRANSPORT": "stdio"
+      }
     }
   }
 }
 ```
 
-Or via module:
-
-```json
-{
-  "mcpServers": {
-    "bridle": {
-      "command": "/Users/neil/lawrennd/bridle/.venv/bin/python",
-      "args": ["-m", "bridle"]
-    }
-  }
-}
-```
-
-After reload, the agent should see a `ping` tool. Call it to confirm bridle
-is reachable (`ok: true`, `service: bridle`).
+Or via module: `"command": "…/.venv/bin/python"`, `"args": ["-m", "bridle"]`.
 
 ## Optional: Streamable HTTP on localhost
 
