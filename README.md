@@ -93,3 +93,4 @@ Action log (JSONL, schema `bridle.action/v0`) defaults to
 - [x] Allowlisted `gh` adapter + policy
 - [x] Action log / DOAgent-compatible records
 - [ ] Hardening (confirm, tests, failure docs)
+- [ ] Issues + Discussions adapters — [CIP-0002](cip/cip0002.md) (**Proposed**)
