@@ -1,7 +1,7 @@
 ---
 id: "0003"
 title: "Metadata-first least disclosure for privileged adapters"
-status: "Ready"
+status: "In Progress"
 priority: "Medium"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -84,3 +84,6 @@ requirement (metadata vs content). Mail remains the first CIP application.
 ### 2026-10-20 (later)
 Status → Ready. CIP-0003 Accepted with IMAP (Option A) as the mail
 backend; backlog breakdown follows.
+
+### 2026-10-20 (backlog)
+Status → In Progress. CIP-0003 In Progress; five backlog tasks created.
