@@ -1,7 +1,7 @@
 ---
 id: "2026-10-20_mail-imap-header-adapter"
 title: "IMAP adapter for header-only mail metadata"
-status: "Ready"
+status: "Completed"
 priority: "High"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -31,11 +31,11 @@ Date/Message-ID/mailbox fields. Map failures to a structured error type
 
 ## Acceptance Criteria
 
-- [ ] Adapter calls `require` / mail policy before any IMAP I/O
-- [ ] Folder opened read-only; fetch path requests headers only
-- [ ] Response schema has no `body`, attachment bytes, or full-text keys
-- [ ] Unit tests with mocked IMAP assert argv/commands and schema
-- [ ] Credentials via env/keyring path documented; never returned to agent
+- [x] Adapter calls `require` / mail policy before any IMAP I/O
+- [x] Folder opened read-only; fetch path requests headers only
+- [x] Response schema has no `body`, attachment bytes, or full-text keys
+- [x] Unit tests with mocked IMAP assert argv/commands and schema
+- [x] Credentials via env/keyring path documented; never returned to agent
 
 ## Implementation Notes
 
@@ -54,3 +54,7 @@ Date/Message-ID/mailbox fields. Map failures to a structured error type
 ### 2026-10-20
 
 Task created (Ready) after CIP-0003 Accepted.
+
+### 2026-10-20 (implemented)
+
+Implemented and covered by unit tests.

@@ -19,19 +19,34 @@ def default_log_path() -> Path:
     return Path.home() / ".bridle" / "actions.jsonl"
 
 
+_LOG_STRING_CAP = 512
+# Keys that must never appear in the action log (content under REQ-0003).
+_CONTENT_KEYS = frozenset({"body", "text", "html", "attachment", "attachments", "payload"})
+
+
+def _truncate_str(value: str) -> str:
+    if len(value) <= _LOG_STRING_CAP:
+        return value
+    return value[:_LOG_STRING_CAP] + "…[truncated]"
+
+
 def _redact(value: Any) -> Any:
-    """Shallow redaction of likely secrets in logged structures."""
+    """Redact secrets, drop content keys, and truncate long strings for the log."""
     if isinstance(value, dict):
         out: dict[str, Any] = {}
         for key, item in value.items():
-            lk = key.lower()
-            if any(s in lk for s in ("token", "password", "secret", "authorization")):
+            lk = str(key).lower()
+            if lk in _CONTENT_KEYS or any(
+                s in lk for s in ("token", "password", "secret", "authorization")
+            ):
                 out[key] = "***"
             else:
                 out[key] = _redact(item)
         return out
     if isinstance(value, list):
         return [_redact(v) for v in value]
+    if isinstance(value, str):
+        return _truncate_str(value)
     return value
 
 

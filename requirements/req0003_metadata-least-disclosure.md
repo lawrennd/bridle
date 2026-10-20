@@ -1,7 +1,7 @@
 ---
 id: "0003"
 title: "Metadata-first least disclosure for privileged adapters"
-status: "In Progress"
+status: "Implemented"
 priority: "Medium"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -30,17 +30,18 @@ the default and not bundled into metadata tools.
 
 ## Acceptance criteria
 
-- [ ] For at least one privileged adapter domain, the agent can list and
+- [x] For at least one privileged adapter domain, the agent can list and
       inspect **metadata only** for user-allowlisted resources
-- [ ] Metadata tool responses contain no content payloads (no bodies,
+      (mail headers via CIP-0003; unit-tested)
+- [x] Metadata tool responses contain no content payloads (no bodies,
       attachment bytes, or full-text fields for the record)
-- [ ] Resources outside the configured allowlist are denied by policy
-- [ ] Metadata tools cannot send, create, reply, forward, delete, move,
+- [x] Resources outside the configured allowlist are denied by policy
+- [x] Metadata tools cannot send, create, reply, forward, delete, move,
       or change state of the underlying records
-- [ ] Every metadata call is allowlisted by tool name + structured args,
+- [x] Every metadata call is allowlisted by tool name + structured args,
       policy-checked, and recorded; the action log does not store content
       payloads for those calls
-- [ ] No free-form shell or backend command/query string passthrough from
+- [x] No free-form shell or backend command/query string passthrough from
       the agent
 
 ## Illustrative domains (not the requirement itself)
@@ -87,3 +88,7 @@ backend; backlog breakdown follows.
 
 ### 2026-10-20 (backlog)
 Status → In Progress. CIP-0003 In Progress; five backlog tasks created.
+
+### 2026-10-20 (implemented)
+Status → Implemented. Mail metadata tools shipped with mocked tests.
+Awaiting live IMAP smoke before Validated / CIP Closed.

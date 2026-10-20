@@ -5,8 +5,10 @@ Local MCP control plane for Cursor agents: allowlisted privileged adapters
 server adapters — without opening the agent seatbelt sandbox to the public
 internet.
 
-Design decisions live in [CIP-0001](cip/cip0001.md) and
-[REQ-0001](requirements/req0001_localhost-privileged-mcp.md).
+Design decisions live in [CIP-0001](cip/cip0001.md),
+[REQ-0001](requirements/req0001_localhost-privileged-mcp.md), and
+mail metadata least-disclosure in [CIP-0003](cip/cip0003.md) /
+[REQ-0003](requirements/req0003_metadata-least-disclosure.md).
 
 ## Why
 
@@ -81,11 +83,37 @@ Default Cursor integration uses **stdio** (leave `BRIDLE_TRANSPORT` unset).
 | `gh_pr_view` | `gh pr view --repo … --json …` |
 | `gh_pr_list` | `gh pr list --repo …` |
 | `gh_pr_create` | `gh pr create --repo …` (mutating) |
+| `mail_account_list` | Allowlisted mail account labels from config |
+| `mail_header_list` | Recent **headers only** (IMAP `EXAMINE` + `BODY.PEEK[HEADER]`) |
+| `mail_header_view` | One message’s headers by opaque id |
 
 Optional: set `BRIDLE_GH_BIN` to an absolute `gh` path.
 
 Action log (JSONL, schema `bridle.action/v0`) defaults to
 `~/.bridle/actions.jsonl`. Override with `BRIDLE_ACTION_LOG`.
+
+### Mail metadata (CIP-0003)
+
+Headers only — no bodies, attachments, or send/mutate tools. Bridle enforces
+account/mailbox (and optional sender) allowlists in config; returned fields
+are untrusted third-party data.
+
+Config file: `~/.bridle/mail.toml` (or `BRIDLE_MAIL_CONFIG`). Example:
+
+```toml
+[[accounts]]
+id = "work"
+host = "imap.example.com"
+port = 993
+username = "you@example.com"
+password_env = "BRIDLE_MAIL_PASS_WORK"
+allowed_mailboxes = ["INBOX"]
+allowed_from = ["*@example.com"]   # optional; empty = any sender in mailbox
+max_list = 50
+```
+
+Set the password via the named env var (never in the TOML). After adding
+tools, reload Cursor MCP so schemas refresh.
 
 ## Status
 
@@ -93,4 +121,5 @@ Action log (JSONL, schema `bridle.action/v0`) defaults to
 - [x] Allowlisted `gh` adapter + policy
 - [x] Action log / DOAgent-compatible records
 - [ ] Hardening (confirm, tests, failure docs)
-- [ ] Issues + Discussions adapters — [CIP-0002](cip/cip0002.md) (**Proposed**)
+- [x] Issues + Discussions adapters — [CIP-0002](cip/cip0002.md)
+- [x] Mail header metadata (IMAP) — [CIP-0003](cip/cip0003.md) (In Progress)

@@ -13,3 +13,8 @@ def test_deny_unknown_tool() -> None:
     assert d.allowed is False
     with pytest.raises(PolicyDenied):
         require("rm_rf")
+
+
+def test_mail_tools_allowlisted() -> None:
+    for tool in ("mail_account_list", "mail_header_list", "mail_header_view"):
+        assert decide(tool).allowed is True

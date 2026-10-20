@@ -1,7 +1,7 @@
 ---
 id: "2026-10-20_mail-header-mcp-tools"
 title: "MCP tools mail_account_list / mail_header_list / mail_header_view"
-status: "Ready"
+status: "Completed"
 priority: "High"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -35,10 +35,10 @@ untrusted data). Extend `_invoke` to catch the mail adapter error type.
 
 ## Acceptance Criteria
 
-- [ ] Three tools registered; no body/send/mutate mail tools
-- [ ] Policy deny and adapter errors return `{ok: false, error: …}`
-- [ ] `instructions` state metadata-only / untrusted content
-- [ ] Unit or smoke tests cover tool wiring with mocked adapter
+- [x] Three tools registered; no body/send/mutate mail tools
+- [x] Policy deny and adapter errors return `{ok: false, error: …}`
+- [x] `instructions` state metadata-only / untrusted content
+- [x] Unit or smoke tests cover tool wiring with mocked adapter
 
 ## Implementation Notes
 
@@ -55,3 +55,7 @@ untrusted data). Extend `_invoke` to catch the mail adapter error type.
 ### 2026-10-20
 
 Task created (Ready) after CIP-0003 Accepted.
+
+### 2026-10-20 (implemented)
+
+Implemented and covered by unit tests.

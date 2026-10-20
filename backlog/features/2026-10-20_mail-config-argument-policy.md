@@ -1,7 +1,7 @@
 ---
 id: "2026-10-20_mail-config-argument-policy"
 title: "Mail config and argument-level allowlist policy"
-status: "Ready"
+status: "Completed"
 priority: "High"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -30,13 +30,13 @@ vars. Deny by default when mail is unconfigured.
 
 ## Acceptance Criteria
 
-- [ ] Config declares allowlisted account ids and mailboxes (explicit list)
-- [ ] Optional `allowed_from` globs; missing/empty means any sender within
+- [x] Config declares allowlisted account ids and mailboxes (explicit list)
+- [x] Optional `allowed_from` globs; missing/empty means any sender within
       an allowlisted mailbox
-- [ ] `decide` / `require` (or mail-specific helpers) reject unknown
+- [x] `decide` / `require` (or mail-specific helpers) reject unknown
       account, mailbox, or sender before backend access
-- [ ] Unit tests cover allow and deny cases without network/IMAP
-- [ ] Unconfigured mail yields a clear structured denial
+- [x] Unit tests cover allow and deny cases without network/IMAP
+- [x] Unconfigured mail yields a clear structured denial
 
 ## Implementation Notes
 
@@ -55,3 +55,7 @@ vars. Deny by default when mail is unconfigured.
 ### 2026-10-20
 
 Task created (Ready) after CIP-0003 Accepted (IMAP Option A).
+
+### 2026-10-20 (implemented)
+
+Implemented and covered by unit tests.

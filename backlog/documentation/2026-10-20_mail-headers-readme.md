@@ -1,7 +1,7 @@
 ---
 id: "2026-10-20_mail-headers-readme"
 title: "Document mail header tools, config, and privacy boundary"
-status: "Ready"
+status: "Completed"
 priority: "Medium"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -30,10 +30,10 @@ allowlists; this does not replace OS grants if a future backend needs them
 
 ## Acceptance Criteria
 
-- [ ] README allowlist table includes the three `mail_*` tools
-- [ ] Config and credential setup documented briefly
-- [ ] Privacy / least-disclosure note links REQ-0003 / CIP-0003
-- [ ] Cursor MCP reload note for new tool schemas
+- [x] README allowlist table includes the three `mail_*` tools
+- [x] Config and credential setup documented briefly
+- [x] Privacy / least-disclosure note links REQ-0003 / CIP-0003
+- [x] Cursor MCP reload note for new tool schemas
 
 ## Implementation Notes
 
@@ -50,3 +50,7 @@ allowlists; this does not replace OS grants if a future backend needs them
 ### 2026-10-20
 
 Task created (Ready) after CIP-0003 Accepted.
+
+### 2026-10-20 (implemented)
+
+Implemented and covered by unit tests.

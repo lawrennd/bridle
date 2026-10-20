@@ -1,7 +1,7 @@
 ---
 id: "2026-10-20_mail-action-log-redaction"
 title: "Action-log truncation and redaction for mail metadata"
-status: "Ready"
+status: "Completed"
 priority: "Medium"
 created: "2026-10-20"
 last_updated: "2026-10-20"
@@ -30,10 +30,10 @@ failures do not leak secrets).
 
 ## Acceptance Criteria
 
-- [ ] Logged mail results omit any accidental body-sized payloads
-- [ ] Oversized header strings in the log are truncated with a marker
-- [ ] Unit tests assert redaction/truncation on sample header results
-- [ ] Existing `gh_*` logging behaviour unchanged
+- [x] Logged mail results omit any accidental body-sized payloads
+- [x] Oversized header strings in the log are truncated with a marker
+- [x] Unit tests assert redaction/truncation on sample header results
+- [x] Existing `gh_*` logging behaviour unchanged
 
 ## Implementation Notes
 
@@ -52,3 +52,7 @@ failures do not leak secrets).
 ### 2026-10-20
 
 Task created (Ready) after CIP-0003 Accepted.
+
+### 2026-10-20 (implemented)
+
+Implemented and covered by unit tests.

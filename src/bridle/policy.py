@@ -25,6 +25,9 @@ ALLOWED_TOOLS = frozenset(
         "gh_pr_view",
         "gh_pr_list",
         "gh_pr_create",
+        "mail_account_list",
+        "mail_header_list",
+        "mail_header_view",
     }
 )
 
